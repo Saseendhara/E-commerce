@@ -1,0 +1,66 @@
+{% extends 'shop/layouts/main.html' %}
+
+{% block title %}
+shopkart| Regsiter page
+{% endblock title %}
+
+{% block content %}
+
+    <section class="bg-light py-4 my-5" style="min-height: 490px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">Cart items</div>
+                    <hr style="border-color: rgb(233, 224, 224);">
+                   
+                </div>
+               
+
+                <table class="table table-bordered">
+                    <tr>
+                        <th>image</th>
+                        <th>Product Name</th>
+                        <th>unit</th>
+                        <th>Quatity</th>
+                        <th>Amount</th>
+                        <th>Remove</th>
+
+                        {% for item in cart %} 
+                 
+                    
+                    </tr>
+
+                    <tr>
+                       <td><img src="{{item.product.product_image.url}}" alt="" height="75px"></td>
+                       <td>{{item.product.name}}</td>
+                       <td>{{item.product.selling_price | stringformat:'d'}}</td>
+                       <td>{{item.product_qty}}</td>
+                       <td class="amt">{{item.total_cost  | stringformat:'d' }}</td>
+                       <td><a href="{% url 'remove_cart' item.id %}" onclick="return confirm('Are you sure? to Remove')" class=" btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove</a></td>
+
+                        {% endfor %}
+                    </tr>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2"> <b>Total Amount </b></td>
+                    <td id="net"><b>RS.0</b></td>
+                  
+
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+    <script>
+        const node=document.querySelectorAll('.amt')
+        const arr=Array.from(node)
+        const res=arr.reduce((acc,curr)=>{
+            return acc+Number(curr.textContent)
+        },0)
+        document.getElementById('net').innerHTML=`<b> Rs ${res} </b>`
+    </script>
+   
+
+
+{% endblock content %}
